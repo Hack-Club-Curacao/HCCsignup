@@ -276,18 +276,8 @@ function submitForm() {
     }).catch(error => {
         console.error("Submission failed", error);
     });
-}
-    // --- OPTION 2: GOOGLE SHEETS SUBMISSION (See instructions below) ---
-    // If using Google Sheets, uncomment the fetch below and replace URL
-    /*
-    fetch('YOUR_GOOGLE_WEB_APP_URL', { 
-        method: 'POST',
-        body: formData
-    });
-    */
-}
+} // This closes submitForm correctly
 </script>
 </body>
-
 </html>
 
