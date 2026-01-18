@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club Signup</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"/>
+<style>
+  @font-face { font-family: 'Phantom Sans'; src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff') format('woff'); }
+  
+  :root { --primary: #2d7ff9; --white: #ffffff; }
+  
+  body {
+    font-family: 'Phantom Sans', sans-serif;
+    margin: 0; padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    /* A smoother static gradient background base */
+    background: linear-gradient(150deg, #5f6cba, #3a4385);  
+    display: flex; justify-content: center; align-items: center;
+  }
+
+  /* --- UPDATED SMOOTH ANIMATED BACKGROUND --- */
+  .circles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -1; margin: 0; padding: 0; }
+  .circles li { position: absolute; display: block; list-style: none; width: 20px; height: 20px; background: rgba(255, 255, 255, 0.15); bottom: -150px; border-radius: 40%; animation: floatUp 35s infinite linear; }
+  
+  /* Varied sizes, positions, durations, and delays for a non-repeating feel */
+  .circles li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-duration: 45s; animation-delay: 0s; }
+  .circles li:nth-child(2) { left: 10%; width: 30px; height: 30px; animation-duration: 30s; animation-delay: 5s; }
+  .circles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 55s; animation-delay: 10s; }
+  .circles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-duration: 35s; animation-delay: 2s; }
+  .circles li:nth-child(5) { left: 65%; width: 25px; height: 25px; animation-duration: 40s; animation-delay: 15s; }
+  .circles li:nth-child(6) { left: 85%; width: 90px; height: 90px; animation-duration: 60s; animation-delay: 7s; }
+  .circles li:nth-child(7) { left: 15%; width: 45px; height: 45px; animation-duration: 50s; animation-delay: 25s; }
+  .circles li:nth-child(8) { left: 55%; width: 35px; height: 35px; animation-duration: 42s; animation-delay: 18s; }
+  
+  /* Slower, rotating ascent */
+  @keyframes floatUp { 
+    0%{ transform: translateY(0) rotate(0deg); opacity: 0; } 
+    20%{ opacity: 0.6; }
+    100%{ transform: translateY(-110vh) rotate(360deg); opacity: 0; } 
+  }
+
+  /* Form Card */
+  #regForm { background: var(--white); padding: 40px; border-radius: 20px; width: 90%; max-width: 500px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); position: relative; min-height: 450px; display: flex; flex-direction: column; justify-content: center; }
+  
+  h1 { text-align: center; color: var(--primary); margin-top: 0; }
+  
+  /* UPDATED LOGO STYLE */
+  .logo { display: block; margin: 0 auto 25px; max-height: 80px; max-width: 80%; width: auto; object-fit: contain; border-radius: 15px; }
+  
+  /* Inputs */
+  input { padding: 15px; width: 100%; font-size: 17px; font-family: 'Phantom Sans'; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px; box-sizing: border-box; transition: 0.3s; }
+  input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 8px rgba(45, 127, 249, 0.2); }
+  input.invalid { border-color: #ff4d4d; background-color: #fff8f8; }
+  .error-msg { color: #ff4d4d; font-size: 13px; display: none; margin-bottom: 15px; margin-top: -5px; font-weight: bold; }
+
+  /* Buttons */
+  .btn-group { display: flex; justify-content: space-between; margin-top: auto; padding-top: 20px; }
+  button { background-color: var(--primary); color: #fff; border: none; padding: 12px 25px; font-size: 16px; border-radius: 8px; cursor: pointer; font-family: 'Phantom Sans'; transition: 0.3s; }
+  button:hover { opacity: 0.9; transform: translateY(-2px); }
+  button#prevBtn { background-color: #e0e0e0; color: #333; }
+  button#prevBtn:hover { background-color: #d0d0d0; }
+
+  /* Steps Transitions */
+  .tab { display: none; animation: fadeEffect 0.6s; flex-grow: 1; }
+  @keyframes fadeEffect { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  
+  /* Phone Input Override */
+  .iti { width: 100%; margin-bottom: 10px; }
+  .iti__flag-container { z-index: 10; }
+</style>
+</head>
+<body>
+
+<ul class="circles"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+
+<form id="regForm" action="">
+  <img src="logo.svg" alt="Club Logo" class="logo">
+
+  <div class="tab">
+    <h1>Welcome!</h1>
+    <p style="text-align:center;">Let's get you signed up.</p>
+    <input type="text" placeholder="First Name" name="fname" oninput="this.className = ''">
+    <input type="text" placeholder="Last Name" name="lname" oninput="this.className = ''">
+  </div>
+
+  <div class="tab">
+    <h1>Contact Info</h1>
+    <input type="tel" id="phone" name="phone_raw">
+    <span class="error-msg" id="phone-error">Please enter a valid phone number.</span>
+    
+    <input type="email" placeholder="Email Address" name="email" oninput="this.className = ''">
+    <span class="error-msg" id="email-error">Invalid email format (e.g., name@domain.com)</span>
+
+    <label style="display:block; margin-top: 15px; margin-bottom: 5px; color: #666;">Date of Birth (Ages 13-18 only)</label>
+    <input type="date" name="dob" id="dob" oninput="this.className = ''">
+    <span class="error-msg" id="age-error">Sorry, we can only accept members aged 13–18.</span>
+  </div>
+
+  <div class="tab">
+    <h1>Emergency Contact 1</h1>
+    <p style="text-align:center; margin-bottom: 20px; color:#666;">Required in case of emergency.</p>
+    <input type="text" placeholder="Their First Name" name="ec1_fname" oninput="this.className = ''">
+    <input type="text" placeholder="Their Last Name" name="ec1_lname" oninput="this.className = ''">
+    <input type="tel" id="ec1_phone" name="ec1_phone_raw">
+    <input type="email" placeholder="Their Email Address" name="ec1_email" oninput="this.className = ''">
+  </div>
+
+  <div class="tab">
+    <h1>Emergency Contact 2</h1>
+    <p style="text-align:center; margin-bottom: 20px; color:#666;">Optional secondary contact.</p>
+    <input type="text" placeholder="Their First Name (Optional)" name="ec2_fname">
+    <input type="text" placeholder="Their Last Name (Optional)" name="ec2_lname">
+    <input type="tel" id="ec2_phone" name="ec2_phone_raw">
+    <input type="email" placeholder="Their Email Address (Optional)" name="ec2_email">
+  </div>
+
+  <div class="tab" id="thankYou" style="text-align: center;">
+    <h1>All set!</h1>
+    <p>Thank you for signing up. We will be in touch soon!</p>
+    <div style="background: #eef2ff; padding: 15px; border-radius: 10px; margin-top: 30px; border: 2px dashed var(--primary);">
+        <strong>Important:</strong><br> Please bring a government-issued ID when you come to your first club meeting.
+    </div>
+  </div>
+
+  <div class="btn-group" id="btnDiv">
+    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Back</button>
+    <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+  </div>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script>
+let currentTab = 0;
+showTab(currentTab);
+
+// Initialize Phone Inputs
+const phoneOpts = { 
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    preferredCountries: ['us', 'gb', 'ca', 'in'], // Add preferred countries here
+    separateDialCode: true
+};
+const phoneInput = window.intlTelInput(document.querySelector("#phone"), phoneOpts);
+const ec1PhoneInput = window.intlTelInput(document.querySelector("#ec1_phone"), phoneOpts);
+const ec2PhoneInput = window.intlTelInput(document.querySelector("#ec2_phone"), phoneOpts);
+
+function showTab(n) {
+  let x = document.getElementsByClassName("tab");
+  x[n].style.display = "flex"; // Changed to flex for better vertical centering
+  x[n].style.flexDirection = "column";
+  
+  if (n == 0) document.getElementById("prevBtn").style.visibility = "hidden";
+  else document.getElementById("prevBtn").style.visibility = "visible";
+  
+  if (n == (x.length - 2)) document.getElementById("nextBtn").innerHTML = "Submit Signup";
+  else document.getElementById("nextBtn").innerHTML = "Next Step";
+
+  if (n == x.length - 1) {
+      document.getElementById("btnDiv").style.display = "none";
+  }
+}
+
+function nextPrev(n) {
+  let x = document.getElementsByClassName("tab");
+  if (n == 1 && !validateForm()) return false;
+  
+  x[currentTab].style.display = "none";
+  currentTab = currentTab + n;
+  
+  if (currentTab >= x.length - 1) {
+    submitForm();
+  }
+  showTab(currentTab);
+}
+
+function validateForm() {
+  let valid = true;
+  let x = document.getElementsByClassName("tab");
+  // Get all regular inputs
+  let inputs = x[currentTab].querySelectorAll("input:not([type=tel])");
+  // Get the tel input specifically for this tab if it exists
+  let telInput = x[currentTab].querySelector("input[type=tel]");
+
+
+  // 1. Validate Regular Inputs
+  for (let i = 0; i < inputs.length; i++) {
+    // Skip validation for optional fields in Step 4
+    if (currentTab == 3 && inputs[i].value.trim() == "") continue;
+
+    // Check Empty
+    if (inputs[i].value.trim() == "" && currentTab != 3) {
+      inputs[i].className += " invalid";
+      valid = false;
+    }
+    
+    // Name Check (Letters only)
+    if ((inputs[i].name.includes('fname') || inputs[i].name.includes('lname')) && inputs[i].value.trim() != "") {
+        if (!/^[a-zA-Z\s]+$/.test(inputs[i].value)) {
+            inputs[i].className += " invalid"; valid = false;
+        }
+    }
+
+    // Email Check
+    if (inputs[i].type == "email" && inputs[i].value.trim() != "") {
+        if (!/\S+@\S+\.\S+/.test(inputs[i].value)) {
+            // Find the associated error message span
+            let errorSpan = inputs[i].nextElementSibling; 
+            if(errorSpan && errorSpan.classList.contains('error-msg')) {
+                 errorSpan.style.display = "block";
+            }
+            inputs[i].className += " invalid"; valid = false;
+        } else {
+             // Hide error if fixed
+             let errorSpan = inputs[i].nextElementSibling;
+             if(errorSpan && errorSpan.classList.contains('error-msg')) {
+                 errorSpan.style.display = "none";
+            }
+        }
+    }
+  }
+
+  // 2. Specific Logic for Step 2 (Contact & Age)
+  if (currentTab == 1) {
+    // Age Check
+    let dobInput = document.getElementById("dob");
+    if(dobInput.value) {
+        let dob = new Date(dobInput.value);
+        let ageDifMs = Date.now() - dob.getTime();
+        let ageDate = new Date(ageDifMs);
+        let age = Math.abs(ageDate.getUTCFullYear() - 1970);
+        if (age < 13 || age > 18 || isNaN(age)) {
+           document.getElementById("age-error").style.display = "block";
+           dobInput.className += " invalid";
+           valid = false;
+        } else { 
+            document.getElementById("age-error").style.display = "none"; 
+        }
+    }
+
+    // Main Phone Check
+    if (!phoneInput.isValidNumber()) {
+        document.getElementById("phone-error").style.display = "block";
+        valid = false;
+    } else { document.getElementById("phone-error").style.display = "none"; }
+  }
+  
+  // 3. Specific Logic for Step 3 (EC1 Phone)
+   if (currentTab == 2) {
+      if (!ec1PhoneInput.isValidNumber()) {
+        // Simple visual cue for EC1 phone error as we don't have a dedicated span
+        document.getElementById("ec1_phone").classList.add("invalid");
+        valid = false;
+    }
+   }
+
+  return valid;
+}
+
+function submitForm() {
+    const formData = new FormData(document.getElementById("regForm"));
+    // Overwrite raw phone inputs with full international format
+    formData.set('phone_final', phoneInput.getNumber());
+    formData.set('ec1_phone_final', ec1PhoneInput.getNumber());
+    formData.set('ec2_phone_final', ec2PhoneInput.getNumber());
+
+    // --- OPTION 1: PHP SUBMISSION ---
+    fetch('process.php', {
+        method: 'POST',
+        body: formData
+    }).then(response => {
+        // console.log("Form submitted successfully to PHP");
+    }).catch(error => console.error('Error:', error));
+
+    // --- OPTION 2: GOOGLE SHEETS SUBMISSION (See instructions below) ---
+    // If using Google Sheets, uncomment the fetch below and replace URL
+    /*
+    fetch('YOUR_GOOGLE_WEB_APP_URL', { 
+        method: 'POST',
+        body: formData
+    });
+    */
+}
+</script>
+</body>
+</html>
