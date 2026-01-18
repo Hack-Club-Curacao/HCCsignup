@@ -259,19 +259,24 @@ function validateForm() {
 
 function submitForm() {
     const formData = new FormData(document.getElementById("regForm"));
+    
     // Overwrite raw phone inputs with full international format
     formData.set('phone_final', phoneInput.getNumber());
     formData.set('ec1_phone_final', ec1PhoneInput.getNumber());
     formData.set('ec2_phone_final', ec2PhoneInput.getNumber());
 
-    // --- OPTION 1: PHP SUBMISSION ---
-    fetch('process.php', {
+    fetch('https://formspree.io/f/mykkwgyl', {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
     }).then(response => {
-        // console.log("Form submitted successfully to PHP");
-    }).catch(error => console.error('Error:', error));
-
+        console.log("Form submitted to Formspree");
+    }).catch(error => {
+        console.error("Submission failed", error);
+    });
+}
     // --- OPTION 2: GOOGLE SHEETS SUBMISSION (See instructions below) ---
     // If using Google Sheets, uncomment the fetch below and replace URL
     /*
@@ -285,3 +290,4 @@ function submitForm() {
 </body>
 
 </html>
+
